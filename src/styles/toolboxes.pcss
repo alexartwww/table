@@ -7,7 +7,8 @@
 
   position: absolute;
   cursor: pointer;
-  z-index: 1;
+  /* Must stay above .tc-table--heading's sticky row (z-index: 2) so the popover isn't clipped under it */
+  z-index: 3;
   opacity: 0;
   transition: opacity 0.1s;
 
