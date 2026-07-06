@@ -21,6 +21,17 @@
   /* Bug-fix: https://github.com/editor-js/table/issues/175 */
   z-index: 0;
 
+  /**
+   * While a row/column popover is open, it can visually extend past the table's
+   * own box (e.g. the last row's menu). Since .tc-wrap already forms its own
+   * stacking context (z-index: 0 above), raising z-index only in this state lifts
+   * the whole table block above the following sibling block's content, so the
+   * open popover doesn't end up clipped underneath it.
+   */
+  &:has(.tc-popover--opened) {
+    z-index: 4;
+  }
+
   &--readonly {
     grid-template-columns: 100% var(--cell-size);
   }
