@@ -79,6 +79,11 @@ export default class TableBlock {
     table: Table;
     block: any;
     /**
+     * Whether the "Stretch"/"Collapse" tune is offered in the block settings.
+     * Shown by default; pass `stretchTune: false` in the tool config to hide it.
+     */
+    stretchTuneEnabled: boolean;
+    /**
      * Return Tool's view
      *
      * @returns {HTMLDivElement}

@@ -25,12 +25,12 @@ function f(d, t) {
   };
 }
 function k(d, t) {
-  const e = d.getBoundingClientRect(), { width: o, height: i, x: r, y: n } = e, { clientX: h, clientY: l } = t;
+  const e = d.getBoundingClientRect(), { width: o, height: i, x: n, y: r } = e, { clientX: h, clientY: l } = t;
   return {
     width: o,
     height: i,
-    x: h - r,
-    y: l - n
+    x: h - n,
+    y: l - r
   };
 }
 function m(d, t) {
@@ -73,10 +73,10 @@ class a {
     return this.wrapper = c("div", a.CSS.popover), this.items.forEach((t, e) => {
       const o = c("div", a.CSS.item), i = c("div", a.CSS.itemIcon, {
         innerHTML: t.icon
-      }), r = c("div", a.CSS.itemLabel, {
+      }), n = c("div", a.CSS.itemLabel, {
         textContent: t.label
       });
-      o.dataset.index = e, o.appendChild(i), o.appendChild(r), this.wrapper.appendChild(o), this.itemEls.push(o);
+      o.dataset.index = e, o.appendChild(i), o.appendChild(n), this.wrapper.appendChild(o), this.itemEls.push(o);
     }), this.wrapper.addEventListener("click", (t) => {
       this.popoverClicked(t);
     }), this.wrapper;
@@ -163,8 +163,8 @@ class w {
    * @param {function} config.onClose - callback fired when the Popover is closing
    * @param {string} config.cssModifier - the modifier for the Toolbox. Allows to add some specific styles.
    */
-  constructor({ api: t, items: e, onOpen: o, onClose: i, cssModifier: r = "" }) {
-    this.api = t, this.items = e, this.onOpen = o, this.onClose = i, this.cssModifier = r, this.popover = null, this.wrapper = this.createToolbox();
+  constructor({ api: t, items: e, onOpen: o, onClose: i, cssModifier: n = "" }) {
+    this.api = t, this.items = e, this.onOpen = o, this.onClose = i, this.cssModifier = n, this.popover = null, this.wrapper = this.createToolbox();
   }
   /**
    * Style classes
@@ -286,10 +286,10 @@ class E {
     }, this.resize(), this.fill(), this.focusedCell = {
       row: 0,
       column: 0
-    }, this.documentClicked = (r) => {
-      const n = r.target.closest(`.${s.table}`) !== null, h = r.target.closest(`.${s.wrapper}`) === null;
-      (n || h) && this.hideToolboxes();
-      const u = r.target.closest(`.${s.addRow}`), p = r.target.closest(`.${s.addColumn}`);
+    }, this.documentClicked = (n) => {
+      const r = n.target.closest(`.${s.table}`) !== null, h = n.target.closest(`.${s.wrapper}`) === null;
+      (r || h) && this.hideToolboxes();
+      const u = n.target.closest(`.${s.addRow}`), p = n.target.closest(`.${s.addColumn}`);
       u && u.parentNode === this.wrapper ? (this.addRow(void 0, !0), this.hideToolboxes()) : p && p.parentNode === this.wrapper && (this.addColumn(void 0, !0), this.hideToolboxes());
     }, this.readOnly || this.bindEvents();
   }
@@ -458,20 +458,20 @@ class E {
    * @param {boolean} [setFocus] - pass true to focus the first cell
    */
   addColumn(t = -1, e = !1) {
-    var r;
+    var n;
     let o = this.numberOfColumns;
     if (this.config && this.config.maxcols && this.numberOfColumns >= this.config.maxcols)
       return;
-    for (let n = 1; n <= this.numberOfRows; n++) {
+    for (let r = 1; r <= this.numberOfRows; r++) {
       let h;
       const l = this.createCell();
-      if (t > 0 && t <= o ? (h = this.getCell(n, t), m(l, h)) : h = this.getRow(n).appendChild(l), n === 1) {
-        const u = this.getCell(n, t > 0 ? t : o + 1);
+      if (t > 0 && t <= o ? (h = this.getCell(r, t), m(l, h)) : h = this.getRow(r).appendChild(l), r === 1) {
+        const u = this.getCell(r, t > 0 ? t : o + 1);
         u && e && C(u);
       }
     }
     const i = this.wrapper.querySelector(`.${s.addColumn}`);
-    (r = this.config) != null && r.maxcols && this.numberOfColumns > this.config.maxcols - 1 && i && i.classList.add(s.addColumnDisabled), this.addHeadingAttrToFirstRow();
+    (n = this.config) != null && n.maxcols && this.numberOfColumns > this.config.maxcols - 1 && i && i.classList.add(s.addColumnDisabled), this.addHeadingAttrToFirstRow();
   }
   /**
    * Add row in table on index place
@@ -483,7 +483,7 @@ class E {
   addRow(t = -1, e = !1) {
     let o, i = c("div", s.row);
     this.tunes.withHeadings && this.removeHeadingAttrFromFirstRow();
-    let r = this.numberOfColumns;
+    let n = this.numberOfColumns;
     if (this.config && this.config.maxrows && this.numberOfRows >= this.config.maxrows && h)
       return;
     if (t > 0 && t <= this.numberOfRows) {
@@ -491,9 +491,9 @@ class E {
       o = m(i, l);
     } else
       o = this.table.appendChild(i);
-    this.fillRow(o, r), this.tunes.withHeadings && this.addHeadingAttrToFirstRow();
-    const n = this.getRowFirstCell(o);
-    n && e && C(n);
+    this.fillRow(o, n), this.tunes.withHeadings && this.addHeadingAttrToFirstRow();
+    const r = this.getRowFirstCell(o);
+    r && e && C(r);
     const h = this.wrapper.querySelector(`.${s.addRow}`);
     return this.config && this.config.maxrows && this.numberOfRows >= this.config.maxrows && h && h.classList.add(s.addRowDisabled), o;
   }
@@ -544,10 +544,10 @@ class E {
    * @return {{rows: number, cols: number}} - number of cols and rows
    */
   computeInitialSize() {
-    const t = this.data && this.data.content, e = Array.isArray(t), o = e ? t.length : !1, i = e ? t.length : void 0, r = o ? t[0].length : void 0, n = Number.parseInt(this.config && this.config.rows), h = Number.parseInt(this.config && this.config.cols), l = !isNaN(n) && n > 0 ? n : void 0, u = !isNaN(h) && h > 0 ? h : void 0;
+    const t = this.data && this.data.content, e = Array.isArray(t), o = e ? t.length : !1, i = e ? t.length : void 0, n = o ? t[0].length : void 0, r = Number.parseInt(this.config && this.config.rows), h = Number.parseInt(this.config && this.config.cols), l = !isNaN(r) && r > 0 ? r : void 0, u = !isNaN(h) && h > 0 ? h : void 0;
     return {
       rows: i || l || 2,
-      cols: r || u || 2
+      cols: n || u || 2
     };
   }
   /**
@@ -719,14 +719,14 @@ class E {
    */
   updateToolboxesPosition(t = this.hoveredRow, e = this.hoveredColumn) {
     this.isColumnMenuShowing || e > 0 && e <= this.numberOfColumns && this.toolboxColumn.show(() => {
-      const o = this.getCell(1, e), { fromLeftBorder: i } = f(this.table, o), { width: r } = o.getBoundingClientRect();
+      const o = this.getCell(1, e), { fromLeftBorder: i } = f(this.table, o), { width: n } = o.getBoundingClientRect();
       return {
-        left: `${Math.ceil(i + r / 2)}px`
+        left: `${Math.ceil(i + n / 2)}px`
       };
     }), this.isRowMenuShowing || t > 0 && t <= this.numberOfRows && this.toolboxRow.show(() => {
-      const o = this.getRow(t), { fromTopBorder: i } = f(this.table, o), { height: r } = o.getBoundingClientRect();
+      const o = this.getRow(t), { fromTopBorder: i } = f(this.table, o), { height: n } = o.getBoundingClientRect();
       return {
-        top: `${Math.ceil(i + r / 2)}px`
+        top: `${Math.ceil(i + n / 2)}px`
       };
     });
   }
@@ -806,17 +806,17 @@ class E {
    */
   getHoveredCell(t) {
     let e = this.hoveredRow, o = this.hoveredColumn;
-    const { width: i, height: r, x: n, y: h } = k(this.table, t);
-    return n >= 0 && (o = this.binSearch(
+    const { width: i, height: n, x: r, y: h } = k(this.table, t);
+    return r >= 0 && (o = this.binSearch(
       this.numberOfColumns,
       (l) => this.getCell(1, l),
-      ({ fromLeftBorder: l }) => n < l,
-      ({ fromRightBorder: l }) => n > i - l
+      ({ fromLeftBorder: l }) => r < l,
+      ({ fromRightBorder: l }) => r > i - l
     )), h >= 0 && (e = this.binSearch(
       this.numberOfRows,
       (l) => this.getCell(l, 1),
       ({ fromTopBorder: l }) => h < l,
-      ({ fromBottomBorder: l }) => h > r - l
+      ({ fromBottomBorder: l }) => h > n - l
     )), {
       row: e || this.hoveredRow,
       column: o || this.hoveredColumn
@@ -834,14 +834,14 @@ class E {
    * @returns {number}
    */
   binSearch(t, e, o, i) {
-    let r = 0, n = t + 1, h = 0, l;
-    for (; r < n - 1 && h < 10; ) {
-      l = Math.ceil((r + n) / 2);
+    let n = 0, r = t + 1, h = 0, l;
+    for (; n < r - 1 && h < 10; ) {
+      l = Math.ceil((n + r) / 2);
       const u = e(l), p = f(this.table, u);
       if (o(p))
-        n = l;
-      else if (i(p))
         r = l;
+      else if (i(p))
+        n = l;
       else
         break;
       h++;
@@ -857,7 +857,7 @@ class E {
     const t = [];
     for (let e = 1; e <= this.numberOfRows; e++) {
       const o = this.table.querySelector(`.${s.row}:nth-child(${e})`), i = Array.from(o.querySelectorAll(`.${s.cell}`));
-      i.every((n) => !n.textContent.trim()) || t.push(i.map((n) => n.innerHTML));
+      i.every((r) => !r.textContent.trim()) || t.push(i.map((r) => r.innerHTML));
     }
     return t;
   }
@@ -891,12 +891,13 @@ class F {
    *
    * @param {TableConstructor} init
    */
-  constructor({ data: t, config: e, api: o, readOnly: i, block: r }) {
+  constructor({ data: t, config: e, api: o, readOnly: i, block: n }) {
+    var r;
     this.api = o, this.readOnly = i, this.config = e, this.data = {
       withHeadings: this.getConfig("withHeadings", !1, t),
       stretched: this.getConfig("stretched", !1, t),
       content: t && t.content ? t.content : []
-    }, this.table = null, this.block = r;
+    }, this.table = null, this.block = n, this.stretchTuneEnabled = ((r = this.config) == null ? void 0 : r.stretchTune) !== !1;
   }
   /**
    * Get Tool toolbox settings
@@ -925,7 +926,7 @@ class F {
    * @returns {Array}
    */
   renderSettings() {
-    return [
+    const t = [
       {
         label: this.api.i18n.t("With headings"),
         icon: T,
@@ -945,17 +946,17 @@ class F {
         onActivate: () => {
           this.data.withHeadings = !1, this.table.setHeadingsSetting(this.data.withHeadings);
         }
-      },
-      {
-        label: this.data.stretched ? this.api.i18n.t("Collapse") : this.api.i18n.t("Stretch"),
-        icon: this.data.stretched ? R : O,
-        closeOnActivate: !0,
-        toggle: !0,
-        onActivate: () => {
-          this.data.stretched = !this.data.stretched, this.block.stretched = this.data.stretched;
-        }
       }
     ];
+    return this.stretchTuneEnabled && t.push({
+      label: this.data.stretched ? this.api.i18n.t("Collapse") : this.api.i18n.t("Stretch"),
+      icon: this.data.stretched ? R : O,
+      closeOnActivate: !0,
+      toggle: !0,
+      onActivate: () => {
+        this.data.stretched = !this.data.stretched, this.block.stretched = this.data.stretched;
+      }
+    }), t;
   }
   /**
    * Extract table data from the view
@@ -1004,10 +1005,10 @@ class F {
    * @param {PasteEvent} event - event with pasted data
    */
   onPaste(t) {
-    const e = t.detail.data, o = e.querySelector(":scope > thead, tr:first-of-type th"), r = Array.from(e.querySelectorAll("tr")).map((n) => Array.from(n.querySelectorAll("th, td")).map((l) => l.innerHTML));
+    const e = t.detail.data, o = e.querySelector(":scope > thead, tr:first-of-type th"), n = Array.from(e.querySelectorAll("tr")).map((r) => Array.from(r.querySelectorAll("th, td")).map((l) => l.innerHTML));
     this.data = {
       withHeadings: o !== null,
-      content: r
+      content: n
     }, this.table.wrapper && this.table.wrapper.replaceWith(this.render());
   }
 }
